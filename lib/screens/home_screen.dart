@@ -66,21 +66,24 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(selectedDate != null
-                        ? DateFormat('yyyy-MM-dd').format(selectedDate!)
-                        : 'All dates'),
-                    ElevatedButton(
-                      onPressed: () => _selectDate(context),
-                      child: const Text('Выбрать дату'),
-                    ),
-                    ElevatedButton(
-                      onPressed: selectedDate != null ? _clearFilter : null,
-                      child: const Text('Обновить фильтр'),
-                    ),
-                  ],
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(selectedDate != null
+                          ? DateFormat('yyyy-MM-dd').format(selectedDate!)
+                          : 'All dates'),
+                      ElevatedButton(
+                        onPressed: () => _selectDate(context),
+                        child: const Text('Выбрать дату'),
+                      ),
+                      ElevatedButton(
+                        onPressed: selectedDate != null ? _clearFilter : null,
+                        child: const Text('Обновить фильтр'),
+                      ),
+                    ],
+                  )
                 ),
               ),
               Expanded(
