@@ -46,6 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // (PRACTIC)
+  void _removeData(BuildContext context, MyData data) {
+    Provider.of<MyDataProvider>(context, listen: false).removeData(data);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,8 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Card(
                         child: ListTile(
                           title: Text(data.title),
-                          subtitle:
-                              Text(DateFormat('yyyy-MM-dd').format(data.date)),
+                          subtitle: Text(DateFormat('yyyy-MM-dd').format(data.date)),
+                          trailing: IconButton(
+                            onPressed: () => _removeData(context, data),
+                            icon: const Icon(Icons.delete_forever)
+                          ),
                         ),
                       ),
                     );
