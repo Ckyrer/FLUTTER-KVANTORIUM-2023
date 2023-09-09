@@ -22,7 +22,7 @@ class MyDataProvider extends ChangeNotifier {
       notifyListeners();
     }
 
-    // (PRACTIC) Удалить товар из базы данных и обновить список на экране
+    // ! (PRACTIC) Удалить товар из базы данных и обновить список на экране
     void removeData(MyData data) async {
       await DatabaseHelper.instance.removeData(data.id!);
       _dataList.remove(data);

@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // (PRACTIC)
+  // ! (PRACTIC)
   void _removeData(BuildContext context, MyData data) {
     Provider.of<MyDataProvider>(context, listen: false).removeData(data);
   }
@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           subtitle: Text(DateFormat('yyyy-MM-dd').format(data.date)),
                           trailing: IconButton(
                             onPressed: () => _removeData(context, data),
-                            icon: const Icon(Icons.delete_forever)
+                            icon: const Icon(Icons.delete)
                           ),
                         ),
                       ),
