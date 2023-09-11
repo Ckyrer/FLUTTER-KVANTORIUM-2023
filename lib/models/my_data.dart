@@ -6,7 +6,7 @@ class MyData {
     final DateTime date;
   
     final String imageUrl;
-    final int state;
+    int state;
   
     MyData({
       this.id,

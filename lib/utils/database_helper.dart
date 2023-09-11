@@ -77,7 +77,7 @@ class DatabaseHelper {
   }
 
   // (PRACTIC) Изменить состояние данных в БД
-  Future<void> changeDataCheckState(int id, bool newState) async {
+  Future<void> changeDataCheckState(int id, int newState) async {
     final db = await instance.db;
     await db.update(instance.table, {'state': newState}, where: 'id LIKE ?', whereArgs: [id]);
   }

@@ -52,6 +52,7 @@ class _AddDataFormState extends State<AddDataForm> {
         title: text,
         imageUrl: image,
         date: date,
+        state: 0
       );
       Provider.of<MyDataProvider>(context, listen: false).addData(data);
       Navigator.pop(context);

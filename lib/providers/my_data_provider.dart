@@ -11,7 +11,7 @@ class MyDataProvider extends ChangeNotifier {
     MyData get getEditingData => _editingData!;
 
     bool getDataCheckState(int id) {
-      return _dataList.firstWhere((element) => element.id==id).state;
+      return _dataList.firstWhere((element) => element.id==id).state==0?false:true;
     }
 
     void setEditingData(MyData data) { _editingData = data; }
@@ -45,7 +45,8 @@ class MyDataProvider extends ChangeNotifier {
         id: id,
         title: newData['title'],
         date: DateTime.parse(newData['date']),
-        imageUrl: newData['imageUrl']
+        imageUrl: newData['imageUrl'],
+        state: newData['state']
       );
       MyData oldData = _dataList.firstWhere((element) => element.id==id);
       int indexOfOldData = _dataList.indexOf(oldData);
@@ -55,9 +56,10 @@ class MyDataProvider extends ChangeNotifier {
 
     // ! (PRACTIC) Изменить состояние в базе данных
     Future<void> changeDataCheckState(MyData data) async {
-      final bool oldState = _dataList[_dataList.indexOf(data)].state;
-      await DatabaseHelper.instance.changeDataCheckState(data.id!, !oldState);
-      _dataList[_dataList.indexOf(data)].state = !oldState;
+      final int newState = _dataList[_dataList.indexOf(data)].state==0?1:0;
+      await DatabaseHelper.instance.changeDataCheckState(data.id!, newState);
+      _dataList[_dataList.indexOf(data)].state = newState;
+      notifyListeners();
     }
 
   }

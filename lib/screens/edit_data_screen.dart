@@ -50,7 +50,8 @@ class _EditDataScreenState extends State<EditDataScreen> {
       final data = {
         'title': _textController.text.trim(),
         'date': DateFormat('yyyy-MM-dd').format(_selectedDate),
-        'imageUrl': _imageController.text.trim()
+        'imageUrl': _imageController.text.trim(),
+        'state': 0
       };
       Provider.of<MyDataProvider>(context, listen: false).editData(
         Provider.of<MyDataProvider>(context, listen: false).getEditingData.id!,
@@ -62,6 +63,10 @@ class _EditDataScreenState extends State<EditDataScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _selectedDate = Provider.of<MyDataProvider>(context, listen: false).getEditingData.date;
+    _textController.text = Provider.of<MyDataProvider>(context, listen: false).getEditingData.title;
+    _imageController.text = Provider.of<MyDataProvider>(context, listen: false).getEditingData.imageUrl;
+    _dateController.text = DateFormat('yyyy-MM-dd').format(Provider.of<MyDataProvider>(context, listen: false).getEditingData.date);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Изменить данные'),
