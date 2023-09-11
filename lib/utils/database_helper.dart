@@ -33,7 +33,7 @@ class DatabaseHelper {
       version: 1,
       onCreate: (db, version) async {
         await db.execute(
-          'CREATE TABLE $table(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, imageUrl TEXT, date TEXT, isChecked INTEGER)',
+          'CREATE TABLE $table(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, imageUrl TEXT, date TEXT, state INTEGER)',
         );
       },
     );
@@ -65,8 +65,21 @@ class DatabaseHelper {
   }
 
   // (PRACTIC) Удаляем данные из БД
-  Future<int> removeData(int id) async {
+  Future<void> removeData(int id) async {
     final db = await instance.db;
-    return await db.delete(instance.table, where: 'id LIKE ?', whereArgs: [id]);
+    await db.delete(instance.table, where: 'id LIKE ?', whereArgs: [id]);
   }
+
+  // (PRACTIC) Изменить данные в БД
+  Future<void> editData(int id, Map<String, dynamic> newData) async {
+    final db = await instance.db;
+    await db.update(instance.table, newData, where: 'id LIKE ?', whereArgs: [id]);
+  }
+
+  // (PRACTIC) Изменить состояние данных в БД
+  Future<void> changeDataCheckState(int id, bool newState) async {
+    final db = await instance.db;
+    await db.update(instance.table, {'state': newState}, where: 'id LIKE ?', whereArgs: [id]);
+  }
+
 }

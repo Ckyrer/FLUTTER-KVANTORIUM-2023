@@ -6,6 +6,15 @@ class MyDataProvider extends ChangeNotifier {
     List _dataList = [];
   
     List get dataList => _dataList;
+
+    MyData? _editingData;
+    MyData get getEditingData => _editingData!;
+
+    bool getDataCheckState(int id) {
+      return _dataList.firstWhere((element) => element.id==id).state;
+    }
+
+    void setEditingData(MyData data) { _editingData = data; }
   
     // ! Получить товар из базы данных и обновить список на экране
     void getData([DateTime? selectedDate]) async {
@@ -28,4 +37,27 @@ class MyDataProvider extends ChangeNotifier {
       _dataList.remove(data);
       notifyListeners();
     }
+
+    // ! (PRACTIC) Изменить данные в базе данных и обновить список на экране
+    void editData(int id, Map<String, dynamic> newData) async {
+      await DatabaseHelper.instance.editData(id, newData);
+      MyData replacingData = MyData(
+        id: id,
+        title: newData['title'],
+        date: DateTime.parse(newData['date']),
+        imageUrl: newData['imageUrl']
+      );
+      MyData oldData = _dataList.firstWhere((element) => element.id==id);
+      int indexOfOldData = _dataList.indexOf(oldData);
+      _dataList[indexOfOldData] = replacingData;
+      notifyListeners();
+    }
+
+    // ! (PRACTIC) Изменить состояние в базе данных
+    Future<void> changeDataCheckState(MyData data) async {
+      final bool oldState = _dataList[_dataList.indexOf(data)].state;
+      await DatabaseHelper.instance.changeDataCheckState(data.id!, !oldState);
+      _dataList[_dataList.indexOf(data)].state = !oldState;
+    }
+
   }

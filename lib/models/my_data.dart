@@ -6,12 +6,14 @@ class MyData {
     final DateTime date;
   
     final String imageUrl;
+    final int state;
   
     MyData({
       this.id,
       required this.title,
       required this.date,
       required this.imageUrl,
+      required this.state
     });
   
     // ! Методы toMap() и fromMap() нужны для более удобной работы с объектами 
@@ -32,6 +34,7 @@ class MyData {
         title: map['title'],
         date: DateTime.parse(map['date']),
         imageUrl: map['imageUrl'],
+        state: map['state']
       );
     }
   
@@ -45,12 +48,14 @@ class MyData {
       String? imageUrl,
       DateTime? date,
       int? number,
+      int? state
     }) {
       return MyData(
         id: id ?? this.id,
         title: title ?? this.title,
         imageUrl: imageUrl ?? this.imageUrl,
         date: date ?? this.date,
+        state: state ?? this.state
       );
     }
   }

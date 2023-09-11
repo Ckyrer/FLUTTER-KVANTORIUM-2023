@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shopping_list/models/my_data.dart';
-import 'package:shopping_list/widgets/edit_data_form.dart';
+import 'package:shopping_list/providers/my_data_provider.dart';
+import 'package:shopping_list/screens/edit_data_screen.dart';
 
 class DataDetailsScreen extends StatelessWidget {
     final MyData data;
@@ -9,18 +11,10 @@ class DataDetailsScreen extends StatelessWidget {
 
     // ! (PRACTIC) Изменить данные
     void _changeData(BuildContext context, MyData data) {
-      showDialog(
-        context: context,
-        builder: (_) => const SimpleDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-          title: Text("Изменение данных"),
-          contentPadding: EdgeInsets.all(25),
-          children: <Widget>[
-            // EditDataForm()
-          ],
-        ),
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => EditDataScreen(data: data,))
       );
     }
   
@@ -52,7 +46,10 @@ class DataDetailsScreen extends StatelessWidget {
                   const SizedBox(height: 8.0),
                   // ! (PRACTIC) Кнопка для изменения данных
                   ElevatedButton(
-                    onPressed: () => _changeData(context, data),
+                    onPressed: () {
+                      Provider.of<MyDataProvider>(context, listen: false).setEditingData(data);
+                      _changeData(context, data);
+                    },
                     child: const Text("Изменить")
                   )
                 ],

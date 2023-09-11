@@ -4,16 +4,16 @@ import 'package:provider/provider.dart';
 import 'package:shopping_list/models/my_data.dart';
 import 'package:shopping_list/providers/my_data_provider.dart';
 
-// ! ЕЩЁ НЕ СДЕЛАНО
+class EditDataScreen extends StatefulWidget {
+  final MyData data;
 
-class EditDataForm extends StatefulWidget {
-  const EditDataForm({super.key});
+  const EditDataScreen({super.key, required this.data});
 
   @override
-  State<EditDataForm> createState() => _EditDataFormState();
+  State<EditDataScreen> createState() => _EditDataScreenState();
 }
 
-class _EditDataFormState extends State<EditDataForm> {
+class _EditDataScreenState extends State<EditDataScreen> {
   // Глобальный ключ и контроллеры для работы с полями формы
   final _formKey = GlobalKey<FormState>();
   final _textController = TextEditingController();
@@ -47,15 +47,15 @@ class _EditDataFormState extends State<EditDataForm> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      final text = _textController.text.trim();
-      final image = _imageController.text.trim();
-      final date = _selectedDate;
-      final data = MyData(
-        title: text,
-        imageUrl: image,
-        date: date,
+      final data = {
+        'title': _textController.text.trim(),
+        'date': DateFormat('yyyy-MM-dd').format(_selectedDate),
+        'imageUrl': _imageController.text.trim()
+      };
+      Provider.of<MyDataProvider>(context, listen: false).editData(
+        Provider.of<MyDataProvider>(context, listen: false).getEditingData.id!,
+        data
       );
-      Provider.of<MyDataProvider>(context, listen: false).addData(data);
       Navigator.pop(context);
     }
   }
@@ -64,7 +64,7 @@ class _EditDataFormState extends State<EditDataForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Добавить товар'),
+        title: const Text('Изменить данные'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

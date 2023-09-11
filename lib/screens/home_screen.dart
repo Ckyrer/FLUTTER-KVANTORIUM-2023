@@ -51,6 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
     Provider.of<MyDataProvider>(context, listen: false).removeData(data);
   }
 
+  // ! (PRACTIC)
+  void _changeDataCheckState(BuildContext context, MyData data) {
+    Provider.of<MyDataProvider>(context, listen: false).changeDataCheckState(data);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,6 +107,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListTile(
                           title: Text(data.title),
                           subtitle: Text(DateFormat('yyyy-MM-dd').format(data.date)),
+                          leading: Checkbox(
+                            onChanged: (_) => _changeDataCheckState(context, data),
+                            value: Provider.of<MyDataProvider>(context).getDataCheckState(data.id),
+                          ),
                           trailing: IconButton(
                             onPressed: () => _removeData(context, data),
                             icon: const Icon(Icons.delete)
@@ -119,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AddDataForm()),
+          MaterialPageRoute(builder: (context) => const AddDataForm()),
         ),
         child: const Icon(Icons.add),
       ),
